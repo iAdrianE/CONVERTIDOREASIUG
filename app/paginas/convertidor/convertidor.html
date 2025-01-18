@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor EASI UG</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="convertidor.js" defer></script>
+</head>
+<body>
+    <main>
+        <form id="upload-form">
+            <label for="file-upload">Selecciona un archivo Word:</label>
+            <input type="file" id="file-upload" accept=".docx" required>
+        
+            <label for="template-type">Tipo de documento:</label>
+            <select id="template-type" name="template" required>
+                <option value="research-article" selected>Artículo Original</option>
+                <option value="research-letter">Informe Breve</option>
+                <option value="review-article">Reseña</option>
+            </select>
+        
+            <button type="submit">Subir y Procesar</button>
+        </form>        
+        <div id="output-container">
+            <p>¿Archivo ya procesado? Descárgalo aquí:</p>
+            <button id="download-link" onclick="window.location.href=this.dataset.href">Descargar Archivo XML</button>
+            <br>
+            <button id="download-images-link" onclick="window.location.href=this.dataset.href">Descargar Imágenes</button>
+            <br>
+            <button id="download-html-link" onclick="window.location.href=this.dataset.href">Descargar HTML</button>
+        </div>        
+        </div>
+    </main>
+</body>
+</html>
