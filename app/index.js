@@ -50,7 +50,7 @@ const cleanOldFiles = async (dir, ageInMinutes) => {
 };
 
 // Limpieza inicial al iniciar el servidor.
-app.listen(app.get("port"), async () => {
+app.listen(app.get("port"), '0.0.0.0', async () => {
   console.log("Servidor corriendo en puerto", app.get("port"));
   try {
     if (await fs.pathExists(UPLOAD_DIR)) {
