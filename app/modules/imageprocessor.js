@@ -26,7 +26,7 @@ export const processImages = async (filePath, outputDir, zipPath) => {
     // Procesar las imágenes
     for (const fileName of mediaFiles) {
       const mediaFileName = path.basename(fileName);
-      const imagePath = path.join(outputDir, mediaFileName);  // Guardamos las imágenes en la raíz de outputDir
+      const imagePath = path.join(outputDir, mediaFileName); // Guardamos las imágenes en la raíz de outputDir
       try {
         if (!(await fs.pathExists(imagePath))) {
           const imageBuffer = await zip.file(fileName).async("nodebuffer");
@@ -47,34 +47,7 @@ export const processImages = async (filePath, outputDir, zipPath) => {
 
     console.log(`Archivo ZIP de imágenes generado en: ${zipPath}`);
 
-    // Ahora, vamos a eliminar la carpeta 'media' del ZIP
-    const zipContent = await fs.readFile(zipPath);
-    const newZip = await JSZip.loadAsync(zipContent);
-    
-    // Eliminar la carpeta 'media' dentro del archivo ZIP
-    delete newZip.files['media/'];
-
-    // Guardar el nuevo ZIP sin la carpeta 'media'
-    const cleanedZipPath = zipPath.replace(".zip", "_cleaned.zip");
-    const newOutput = fs.createWriteStream(cleanedZipPath);
-    const cleanedArchive = archiver("zip");
-    cleanedArchive.pipe(newOutput);
-    
-    // Añadir los archivos restantes al nuevo archivo ZIP
-    for (const fileName in newZip.files) {
-      const file = newZip.files[fileName];
-      const buffer = await file.async("nodebuffer");
-      cleanedArchive.append(buffer, { name: fileName });
-    }
-    
-    await cleanedArchive.finalize();
-    console.log(`Archivo ZIP limpio (sin la carpeta 'media') generado en: ${cleanedZipPath}`);
-
-    // Opcional: Reemplazar el archivo original ZIP con el limpiado
-    await fs.remove(zipPath);  // Eliminar el archivo ZIP original con 'media'
-    await fs.rename(cleanedZipPath, zipPath);  // Renombrar el archivo limpio como el original
-
-    return zipPath;  // Devolver la ruta del archivo ZIP final limpio
+    return zipPath; // Devolver la ruta del archivo ZIP final
   } catch (error) {
     throw new Error(`Error al procesar imágenes: ${error.message}`);
   }
